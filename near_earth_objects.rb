@@ -7,17 +7,18 @@ Figaro.load
 
 class NearEarthObjects
   def self.find_neos_by_date(date)
-    parsed_asteroids_data = asteroids_list_data(date)
+    parsed_asteroids_data = asteroids_list_data(date)[:near_earth_objects][:"#{date}"]
     {
       asteroid_list: formatted_asteroid_data(parsed_asteroids_data),
       biggest_asteroid: largest_asteroid_diameter(parsed_asteroids_data),
-      total_number_of_asteroids: parsed_asteroids_data.count
+      total_number_of_asteroids: parsed_asteroids_data.size
     }
   end
 
+  private
+
   def self.formatted_asteroid_data(parsed_asteroids_data)
     parsed_asteroids_data.map do |asteroid|
-      binding.pry
       {
         name: asteroid[:name],
         diameter: "#{asteroid[:estimated_diameter][:feet][:estimated_diameter_max].to_i} ft",
